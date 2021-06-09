@@ -87,7 +87,7 @@ let avenger = {
   age: 200,
 };
 
-console.log(avenger.skills[2]["BestFriend"][1].skills[0].substring(4)); 
+console.log(avenger.skills[2].BestFriend[1].skills[0].substring(4)); 
 
 
 
