@@ -29,8 +29,3 @@ let sayHi = function(){
 }
 
 // sayHi();
-
-
-
-
-// High Order Functions and CallBack Functions
