@@ -1,31 +1,4 @@
-let fs = require("fs");
-let input = process.argv.slice(2);
-
-let files = [];
-let flags = [];
-
-for (let i = 0; i < input.length; i++) {
-  if (input[i].startsWith("-")) {
-    flags.push(input[i]);
-  } else {
-    files.push(input[i]);
-  }
-}
-
-// console.log(files);
-// console.log(flags);
-
-let data = "";
-for(let i=0 ; i<files.length ; i++){
-    let fileKaData = fs.readFileSync(files[i]);
-    data += i == files.length-1 ? fileKaData :  fileKaData+"\r\n";
-}
-
-// console.log(data);
-
-// -s flag
-
-function applySFlag(){
+function applySFlag(data){
     let dataComp = data.split("\r\n");
     // console.log(dataComp);
     let sFlagedData = [];
@@ -43,12 +16,7 @@ function applySFlag(){
     let sFlagedString = sFlagedData.join("\r\n");
     return sFlagedString;
 }
-
-// data = applySFlag();
-// console.log(data);
-
-//  -n flag
-function applyNFlag(){
+function applyNFlag(data){
     let dataComps = data.split("\r\n");
     let count=1;
     for(let i=0  ; i<dataComps.length ; i++){
@@ -61,12 +29,7 @@ function applyNFlag(){
     // console.log(nFlaggedString);
     return nFlaggedString;
 }
-// data = applyNFlag();
-
-
-// -b flag
-
-function applyBFlag(){
+function applyBFlag(data){
     let dataComps = data.split("\r\n");
     let count=1;
     for(let i=0  ; i<dataComps.length ; i++){
@@ -81,4 +44,8 @@ function applyBFlag(){
     // console.log(bFlaggedString);
     return bFlaggedString;
 }
-data = applyBFlag();
+
+
+module.exports.applySFlag = applySFlag;
+module.exports.applyNFlag = applyNFlag;
+module.exports.applyBFlag = applyBFlag;
