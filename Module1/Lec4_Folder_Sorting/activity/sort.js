@@ -4,7 +4,6 @@ let extensions = require("./extensions");
 let testFolderPath = "./testFolder";
 
 // fs function which gives content of a directory
-
 let contents = fs.readdirSync(testFolderPath);
 // console.log(contents);
 
@@ -32,7 +31,6 @@ function sortFile(file){
     fs.unlinkSync(sourceFilePath);
 }
 
-
 function getFolderName(ext){
     // ext = "jpg"
     let folderName;
@@ -43,7 +41,6 @@ function getFolderName(ext){
         } 
     }
 }
-
 
 // Task
 // 1. Think of Recursive code
