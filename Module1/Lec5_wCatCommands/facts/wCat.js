@@ -21,15 +21,29 @@ for(let i=0 ; i<files.length ; i++){
     data += i == files.length-1 ? fileKaData :  fileKaData+"\n";
 }
 
-console.log(data);
+// console.log(data);
 
 // -s flag
 
 function applySFlag(){
     let dataComp = data.split("\r\n");
-    console.log(dataComp);
-
-
+    // console.log(dataComp);
+    let sFlagedData = [];
+    let nonEmptyFound = false;
+    
+    for(let i=0 ; i<dataComp.length ; i++){
+        if(dataComp[i] != '' ){
+            sFlagedData.push(dataComp[i]);
+            nonEmptyFound = true;
+        }
+        else if(dataComp[i] == '' && dataComp[i-1] != '' && nonEmptyFound){
+            sFlagedData.push(dataComp[i]);
+        }
+    }
+    let sFlagedString = sFlagedData.join("\r\n");
+    return sFlagedString;
 }
 
-applySFlag();
+data = applySFlag();
+
+console.log(data);
