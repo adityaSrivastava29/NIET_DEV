@@ -11,6 +11,7 @@ const fs = require("fs");
 // 8. then() function call returns a pending Promise ka object => thenKaPromise
 // 9. catch() function call returns a pendign Promise object => catchKaPromise
 
+
 let pendingPromise = fs.promises.readFile("./f1.txt");
 
 pendingPromise.then(function (data) {
