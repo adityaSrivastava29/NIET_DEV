@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
-const id ="pamico3332@nic58.com";
-const pw = "12345678";
+const id ="neforar346@0ranges.com";
+const pw = "123456789";
 let tab;
 // puppeteer functions => promisifed functions
 
@@ -36,7 +36,43 @@ browserOpenPromise.then(function (browserInstance) {
       return loginPromise;
   })
   .then(function(){
-      console.log("login succesfull !");
+    //   wait for selector
+    let waitPromise = tab.waitForSelector('#base-card-1-link' , {visible:true});
+    return waitPromise;
+  })
+  .then(function(){
+      let ipKitClickedPromise = tab.click('#base-card-1-link');
+      return ipKitClickedPromise;
+  })
+  .then(function(){
+      let waitPromise = tab.waitForSelector('a[data-attr1="warmup"]' , {visible:true});
+      return waitPromise;
+  })
+  .then(function(){
+      let warmupChallengesPromise = tab.click('a[data-attr1="warmup"]');
+      return warmupChallengesPromise;
+  })
+  .then(function(){
+      let waitPromise = tab.waitForSelector('.js-track-click.challenge-list-item');
+      return waitPromise;
+  })
+  .then(function(){
+      let allATagsPromise = tab.$$('.js-track-click.challenge-list-item');
+      return allATagsPromise;
+  })
+  .then(function(allATags){
+      //[<a href=""></a> , <a ></a> , <a></a> , <a></a> ];
+      let allQuesLinksPromise = [];
+      for(let i=0 ; i<allATags.length ; i++){
+          let quesLinkPromise = tab.evaluate( function(elem){  return elem.getAttribute("href");   }  , allATags[i] );
+          allQuesLinksPromise.push(quesLinkPromise);
+      }
+    //   allQuesLinkPromise = [ Promise<Pending> , Promise<Pending> , Promise<Pending> , Promise<Pending> ];
+    let combinedPromise = Promise.all(allQuesLinksPromise);
+    return combinedPromise; //Promise<Pending>
+  })
+  .then(function(allQuesLinks){
+      console.log(allQuesLinks);
   })
   .catch(function(err){
       console.log("Inside catch");
