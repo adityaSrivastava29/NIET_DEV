@@ -10,6 +10,7 @@ let browserOpenPromise = puppeteer.launch({
   headless: false,
   defaultViewport: null,
   args: ["--start-maximized"],
+  executablePath:"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 });
 
 browserOpenPromise.then(function (browserInstance) {
