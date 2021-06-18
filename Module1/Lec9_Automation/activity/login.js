@@ -72,7 +72,8 @@ browserOpenPromise.then(function (browserInstance) {
     return combinedPromise; //Promise<Pending>
   })
   .then(function(allQuesLinks){
-      console.log(allQuesLinks);
+    //   console.log(allQuesLinks);
+    // solveOneQuestion();
   })
   .catch(function(err){
       console.log("Inside catch");
