@@ -41,11 +41,11 @@ browserOpenPromise
     return loginPromise;
   })
   .then(function () {
-    let waitAndClickPromise = waitAndClick("#base-card-1-link" , tab);
+    let waitAndClickPromise = waitAndClick("#base-card-1-link", tab);
     return waitAndClickPromise;
   })
   .then(function () {
-    let waitAndClickPromise = waitAndClick('a[data-attr1="warmup"]' , tab);
+    let waitAndClickPromise = waitAndClick('a[data-attr1="warmup"]', tab);
     return waitAndClickPromise;
   })
   .then(function () {
@@ -71,16 +71,17 @@ browserOpenPromise
     let combinedPromise = Promise.all(allQuesLinksPromise);
     return combinedPromise; //Promise<Pending>
   })
-  .then(function (allQuesLinks) {
-    // Serially ???
-    
-    let allQuesSolvePromise = [];
-    for (let i = 0; i < allQuesLinks.length; i++) {
-      let oneQuesSolvePromise = solveQuestion(allQuesLinks[i]);
-      allQuesSolvePromise.push(oneQuesSolvePromise);
+  .then(function(allQuesLinks) {
+    let oneQuesSolvePromise = solveQuestion(allQuesLinks[0]);
+
+    for (let i = 1; i < allQuesLinks.length; i++) {
+      oneQuesSolvePromise = oneQuesSolvePromise.then(function () {
+        let nextQuesSolvePromise = solveQuestion(allQuesLinks[i]);
+        return nextQuesSolvePromise;
+      });
     }
-    let combinedPromise = Promise.all(allQuesSolvePromise);
-    return combinedPromise;
+
+    return oneQuesSolvePromise;
   })
   .then(function () {
     console.log("All Questions Solved !!");
@@ -90,7 +91,7 @@ browserOpenPromise
     console.log(err);
   });
 
-function waitAndClick(selector , tab) {
+function waitAndClick(selector, tab) {
   return new Promise(function (scb, fcb) {
     let waitPromise = tab.waitForSelector(selector, { visible: true });
     waitPromise
@@ -137,7 +138,7 @@ function solveQuestion(quesLink) {
             break;
           }
         }
-        let clickPromise = waitAndClick(".checkbox-input" , tab);
+        let clickPromise = waitAndClick(".checkbox-input", tab);
         return clickPromise;
       })
       .then(function () {
@@ -184,11 +185,14 @@ function solveQuestion(quesLink) {
         );
         return submitBtnClicked;
       })
+      .then(function(){
+        return tab.waitForTimeout("5000");
+      })
       .then(function () {
         return tab.close();
       })
-      .then(function(){
-          scb();
+      .then(function () {
+        scb();
       })
       .catch(function (err) {
         fcb(err);
